@@ -1,17 +1,66 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-//const url = "https://www.imdb.com/title/tt0088763/reference"; // Back to the Future
-//const url = "https://www.imdb.com/title/tt0145487/reference"; // Spider-Man
-//const url = "https://www.imdb.com/title/tt9603212/reference"; // Mission: Impossible 7
-const url = "https://www.imdb.com/title/tt2322441/reference"; //Fifty Shades of Grey
+const movieUrl1 = "https://www.imdb.com/title/tt0088763/reference"; // Back to the Future
+const movieUrl2 = "https://www.imdb.com/title/tt0145487/reference"; // Spider-Man
+const movieUrl3 = "https://www.imdb.com/title/tt9603212/reference"; // Mission: Impossible 7
+const movieUrl4 = "https://www.imdb.com/title/tt2322441/reference"; // Fifty Shades of Grey
 
 const options = {
   method: "GET",
-  url, //buradaki url ismi değişmemeli. axios bu isimle arıyor çünkü!!!
+  url: movieUrl1,
 };
 
-//async function getMovieData() {
+const genres = [
+  "Action",
+  "Adult",
+  "Adventure",
+  "Animation",
+  "Biography",
+  "Comedy",
+  "Crime",
+  "Documentary",
+  "Drama",
+  "Family",
+  "Fantasy",
+  "Film-Noir",
+  "Game-Show",
+  "History",
+  "Horror",
+  "Reality-TV",
+  "Romance",
+  "Short",
+  "Mystery",
+  "Music",
+  "Musical",
+  "News",
+  "Western",
+  "War",
+  "Sci-Fi",
+  "Sport",
+  "Talk-Show",
+  "Thriller",
+];
+
+/*
+// MPAA ratings (1990)
+const ageRatings = [
+  "G", // General
+  "PG", // Parental Guidance Suggested
+  "PG-13", // Parents Strongly Cautioned
+  "R", // Restricted
+  "NC-17", // No Children 17 and Under Admitted
+];
+*/
+
+let pos;
+
+//.replace(/[&\/\\#,+()$~%.'":*?<>{}0-9\n]/g, ""); //istenmeyen karakterleri kaldır
+//.replace(/[^a-zA-Z0-9 ]/g, "");
+//.replace(/[^a-zA-Z0-9]/g, "");
+//.replace(/[\n\t\r]/g, "");
+
+//const getMovieInfo = async () => {
 (async () => {
   try {
     const res = await axios(options);
@@ -24,7 +73,7 @@ const options = {
     )
       .text()
       .replace(/[\t\r]/g, "");
-    //.replace(/[&\/\\#,+()$~%.'":*?<>{}0-9\n]/g, ""); //istenmeyen karakterleri kaldır
+
     movieTitle = movieTitle.substring(1);
     movieTitle = movieTitle.substring(0, movieTitle.indexOf("\n")).trim();
 
@@ -33,9 +82,19 @@ const options = {
       `div[class="titlereference-header"] > div > h3 > span[class="titlereference-title-year"]`
     )
       .text()
-      //.replace(/[\n\t\r]/g, "");
       .replace(/[^0-9]/g, "");
-    //.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    //---------------------------
+    let movieAgeRating = $(
+      `div[class="titlereference-header"] > div > ul[class="ipl-inline-list"] > li[class="ipl-inline-list__item"]`
+      //`ul.ipl-inline-list:nth-child(8) > li:nth-child(1)`
+    )
+      .text()
+      .replace(/[\t\r ]/g, "");
+
+    movieAgeRating = movieAgeRating.substring(1, movieAgeRating.length);
+    movieAgeRating = movieAgeRating.substring(0, movieAgeRating.indexOf("\n"));
+    if (movieAgeRating.length === 0) movieAgeRating += "N/A";
 
     //---------------------------
     let movieDuration = $(
@@ -44,42 +103,33 @@ const options = {
     )
       .text()
       .replace(/[\n\t\r]/g, "");
-    //  .trim()
-    //  .substring(0, 50);
-    //.replace(/[^a-zA-Z0-9]/g, "");
-    if (movieDuration.indexOf("h") && movieDuration.indexOf("min")) {
-      movieDuration = movieDuration
-        .substring(
-          movieDuration.indexOf("h") - 1,
-          movieDuration.indexOf("min") + 3
-        )
-        .trim();
-    } else movieDuration += "N/A";
+
+    pos = movieDuration.match("h");
+    movieDuration = movieDuration.substring(
+      pos.index - 1,
+      movieDuration.length
+    );
+    pos = movieDuration.match("min");
+    movieDuration = movieDuration.substring(0, pos.index + 3);
+    if (movieDuration.length === 0) movieDuration += "N/A";
 
     //---------------------------
-    //let movieGenre = $();
-
-    //---------------------------
-    let movieAgeRating = $(
+    let movieGenre = [];
+    let movieGenreStr = $(
       `div[class="titlereference-header"] > div > ul[class="ipl-inline-list"] > li[class="ipl-inline-list__item"]`
-      //`ul.ipl-inline-list:nth-child(8) > li:nth-child(1)`
+      //`ul.ipl-inline-list:nth-child(8) > li:nth-child(3)`
     )
       .text()
-      .replace(/[\t\r]/g, "");
-    movieAgeRating = movieAgeRating.substring(1);
-    movieAgeRating = movieAgeRating
-      .substring(0, movieAgeRating.indexOf("\n"))
-      .trim();
-    if (movieAgeRating === "") movieAgeRating += "N/A";
+      .replace(/[\n ]/g, ""); //.attr("href");
 
-    //---------------------------
-    let movieSummary = $(
-      //`section[class="titlereference-section-overview"] > div`
-      `.titlereference-section-overview > div:nth-child(1)`
-    )
-      .text()
-      .trim();
-    if (movieSummary === "") movieSummary += "N/A";
+    genres.forEach((el) => {
+      pos = movieGenreStr.search(el);
+      if (pos > -1) {
+        movieGenre += movieGenreStr.substring(pos, pos + el.length) + ", ";
+      }
+    });
+    if (movieGenre.length === 0) movieGenre += "N/A";
+    else movieGenre = movieGenre.substring(0, movieGenre.length - 2);
 
     //---------------------------
     let movieRating = $(
@@ -98,27 +148,36 @@ const options = {
       .replace(/[^0-9]/g, "");
     if (movieRank === "") movieRank += "N/A";
 
+    //---------------------------
+    let movieSummary = $(
+      //`section[class="titlereference-section-overview"] > div`
+      `.titlereference-section-overview > div:nth-child(1)`
+    )
+      .text()
+      .trim();
+    if (movieSummary === "") movieSummary += "N/A";
+
     const moviePoster = $(
       `div[class="titlereference-header"] > div > a > img`
     ).attr("src");
 
     //---------------------------
     console.log(
-      "-----------------------------\nMOVIE INFO\n-----------------------------"
+      "-----------------------------\n** MOVIE INFO **\n-----------------------------"
     );
     console.log("Name: %s (%s)", movieTitle, movieYear);
     //console.log("Year:", movieYear);
-    console.log("Duration:", movieDuration);
     console.log("Age Rating:", movieAgeRating);
-    //console.log("Age Rating:", movieAgeRating);
-    console.log("Summary:", movieSummary);
-    console.log("Poster:", moviePoster);
+    console.log("Duration:", movieDuration);
+    console.log("Genre:", movieGenre);
     console.log("Rating:", movieRating);
     console.log("Rank:", movieRank);
+    console.log("Summary:", movieSummary);
+    console.log("Poster:", moviePoster);
     console.log("-----------------------------");
   } catch (err) {
-    console.log("ERROR!");
+    console.log("ERROR!", err);
   }
 })(); //() ile fonksiyonu hemen çağırabiliyoruz
 
-//getMovieData();
+//getMovieInfo();
