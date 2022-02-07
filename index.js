@@ -8,7 +8,7 @@ const movieUrl4 = "https://www.imdb.com/title/tt2322441/reference"; // Fifty Sha
 
 const options = {
   method: "GET",
-  url: movieUrl1,
+  url: movieUrl4,
 };
 
 const genres = [
@@ -105,13 +105,19 @@ let pos;
       .replace(/[\n\t\r]/g, "");
 
     pos = movieDuration.match("h");
-    movieDuration = movieDuration.substring(
-      pos.index - 1,
-      movieDuration.length
-    );
-    pos = movieDuration.match("min");
-    movieDuration = movieDuration.substring(0, pos.index + 3);
-    if (movieDuration.length === 0) movieDuration += "N/A";
+    if (pos) {
+      movieDuration = movieDuration.substring(
+        pos.index - 1,
+        movieDuration.length
+      );
+
+      pos = movieDuration.match("min");
+      if (pos) {
+        movieDuration = movieDuration.substring(0, pos.index + 3);
+      }
+    } else {
+      movieDuration = "N/A";
+    }
 
     //---------------------------
     let movieGenre = [];
@@ -157,6 +163,26 @@ let pos;
       .trim();
     if (movieSummary === "") movieSummary += "N/A";
 
+    //---------------------------
+    const movieDirector = $(
+      //`section[class="titlereference-section-overview"] > div[class="titlereference-overview-section"] > ul[ipl-inline-list] > li[class="ipl-inline-list__item"] > a`
+      `div.titlereference-overview-section:nth-child(3) > ul:nth-child(1) > li:nth-child(1) > a:nth-child(1)`
+    )
+      .text()
+      .trim();
+    if (movieDirector === "") movieDirector += "N/A";
+
+    //---------------------------
+    const movieWriter = $(
+      //`section[class="titlereference-section-overview"] > div[class="titlereference-overview-section"] > ul[ipl-inline-list] > li[ipl-inline-list__item] > a`
+      `div.titlereference-overview-section:nth-child(4) > ul:nth-child(1) > li:nth-child(1)`
+    )
+      .text()
+      .trim()
+      .replace(/[\n]/g, "");
+    if (movieWriter === "") movieWriter += "N/A";
+
+    //---------------------------
     const moviePoster = $(
       `div[class="titlereference-header"] > div > a > img`
     ).attr("src");
@@ -173,6 +199,8 @@ let pos;
     console.log("Rating:", movieRating);
     console.log("Rank:", movieRank);
     console.log("Summary:", movieSummary);
+    console.log("Director:", movieDirector);
+    console.log("Writer:", movieWriter);
     console.log("Poster:", moviePoster);
     console.log("-----------------------------");
   } catch (err) {
