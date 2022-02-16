@@ -2,6 +2,7 @@
 ** MOVIE INFO **
 -----------------------------
 Name: Geleceğe Dönüş (1985)
+IMDB ID: tt0088763
 Age Rating: PG
 Duration: 1h 56min
 Genre: Adventure, Comedy
@@ -13,10 +14,12 @@ Writer: Robert Zemeckis, Bob Gale
 Poster: https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX101_CR0,0,101,150_.jpg
 -----------------------------
 
+
 -----------------------------
 ** MOVIE INFO **
 -----------------------------
 Name: Bıçağın iki yüzü (1998)
+IMDB ID: tt0120611
 Age Rating: R
 Duration: 2h 0min
 Genre: Action, Horror
@@ -28,10 +31,12 @@ Writer: David S. Goyer
 Poster: https://m.media-amazon.com/images/M/MV5BOTk2NDNjZWQtMGY0Mi00YTY2LWE5MzctMGRhZmNlYzljYTg5XkEyXkFqcGdeQXVyMTAyNjg4NjE0._V1_SY150_CR3,0,101,150_.jpg
 -----------------------------
 
+
 -----------------------------
 ** MOVIE INFO **
 -----------------------------
 Name: Grinin Elli Tonu (2015)
+IMDB ID: tt2322441
 Age Rating: R
 Duration: 2h 5min
 Genre: Drama, Romance
@@ -43,10 +48,12 @@ Writer: Kelly Marcel, E.L. James
 Poster: https://m.media-amazon.com/images/M/MV5BMjE1MTM4NDAzOF5BMl5BanBnXkFtZTgwNTMwNjI0MzE@._V1_SX101_CR0,0,101,150_.jpg
 -----------------------------
 
+
 -----------------------------
 ** MOVIE INFO **
 -----------------------------
 Name: Demir Adam (2008)
+IMDB ID: tt0371746
 Age Rating: PG-13
 Duration: 2h 6min
 Genre: Action, Adventure
@@ -57,4 +64,56 @@ Director: Jon Favreau
 Writer: Mark Fergus, Hawk Ostby, Art Marcum
 Poster: https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SY150_CR0,0,101,150_.jpg
 -----------------------------
+
+
+-----------------------------
+** MOVIE INFO **
+-----------------------------
+Name: Görevimiz tehlike II (2000)
+IMDB ID: tt0120755
+Age Rating: PG-13
+Duration: 2h 3min
+Genre: Action, Adventure
+Rating: 6.1
+Rank: N/A
+Summary: IMF agent Ethan Hunt is sent to Sydney to find and destroy a genetically modified disease called "Chimera".
+Director: John Woo
+Writer: Bruce Geller, Ronald D. Moore, Brannon Braga
+Poster: https://m.media-amazon.com/images/M/MV5BN2RkYWVkZDQtNTMxMi00NWQ4LWE2ODctNmQzOWM2NjQzYzdlXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX101_CR0,0,101,150_.jpg
+-----------------------------
+
+
+-----------------------------
+** MOVIE INFO **
+-----------------------------
+Name: Mission: Impossible 7 (2023)
+IMDB ID: tt9603212
+Age Rating: Action,
+Duration: N/A
+Genre: Action, Adventure
+Rating: N/A
+Rank: N/A
+Summary: Seventh entry in the long-running Mission: Impossible series.
+Director: Christopher McQuarrie
+Writer: Bruce Geller, Christopher McQuarrie
+Poster: https://m.media-amazon.com/images/M/MV5BODJhOTIxZTItNmM1OS00MGQ5LWExY2YtZDYxMzU1ZDE4ZDA4XkEyXkFqcGdeQXVyMzcyMzg5MTc@._V1_SY150_CR49,0,101,150_.jpg
+-----------------------------
+
+
+-----------------------------
+** MOVIE INFO **
+-----------------------------
+Name: Örümcek-Adam (2002)
+IMDB ID: tt0145487
+Age Rating: PG-13
+Duration: 2h 1min
+Genre: Action, Adventure
+Rating: 7.3
+Rank: N/A
+Summary: When bitten by a genetically modified spider, a nerdy, shy, and awkward high school student gains spider-like abilities that he eventually must use to fight evil as a superhero after tragedy befalls his family.
+Director: Sam Raimi
+Writer: Stan Lee, Steve Ditko, David Koepp
+Poster: https://m.media-amazon.com/images/M/MV5BZDEyN2NhMjgtMjdhNi00MmNlLWE5YTgtZGE4MzNjMTRlMGEwXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_SY150_CR0,0,101,150_.jpg
+-----------------------------
+
 

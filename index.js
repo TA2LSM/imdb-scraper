@@ -6,18 +6,8 @@ const fs = require("fs").promises;
 const moviesIndexFilePath = "./moviesList.txt";
 const moviesInfoFilePath = "./moviesInfo.txt";
 
-const movieUrl1 = "https://www.imdb.com/title/tt0088763/reference"; // Back to the Future
-const movieUrl2 = "https://www.imdb.com/title/tt0145487/reference"; // Spider-Man
-const movieUrl3 = "https://www.imdb.com/title/tt9603212/reference"; // Mission: Impossible 7
-const movieUrl4 = "https://www.imdb.com/title/tt2322441/reference"; // Fifty Shades of Grey
-
 let moviesToSearch = [];
 let movieIDs = [];
-
-const options = {
-  method: "GET",
-  url: movieUrl1,
-};
 
 const genres = [
   "Action",
@@ -59,19 +49,6 @@ const ageRatings = [
   "R", // Restricted
   "NC-17", // No Children 17 and Under Admitted
 ];
-*/
-/*
-async.series([
-  searchMovieID(null, keyword)
-],
-function(err, results) {
-  if (err) {
-      //oh shit
-      return;
-  }
-
-  //all functions finished correctly!
-});
 */
 
 const startProcess = async () => {
@@ -291,14 +268,13 @@ const getMovieInfo = async () => {
       ).attr("src");
 
       //---------------------------
-
       importingString = "";
       importingString =
         "-----------------------------\r\n** MOVIE INFO **\r\n-----------------------------\r\n";
       movieInfoToWrite += importingString;
-      importingString = `Name: ${movieTitle} (${movieYear})\r\nAge Rating: ${movieAgeRating}\r\n`;
+      importingString = `Name: ${movieTitle} (${movieYear})\r\nIMDB ID: ${movieIDs[i]}\r\n`;
       movieInfoToWrite += importingString;
-      importingString = `Duration: ${movieDuration}\r\nGenre: ${movieGenre}\r\n`;
+      importingString = `Age Rating: ${movieAgeRating}\r\nDuration: ${movieDuration}\r\nGenre: ${movieGenre}\r\n`;
       movieInfoToWrite += importingString;
       importingString = `Rating: ${movieRating}\r\nRank: ${movieRank}\r\n`;
       movieInfoToWrite += importingString;
@@ -306,10 +282,10 @@ const getMovieInfo = async () => {
       movieInfoToWrite += importingString;
       importingString = `Writer: ${movieWriter}\r\nPoster: ${moviePoster}\r\n`;
       movieInfoToWrite += importingString;
-      importingString = "-----------------------------\r\n\r\n";
+      importingString = "-----------------------------\r\n\r\n\r\n";
       movieInfoToWrite += importingString;
-
       //console.log(movieInfoToWrite);
+      //console.log("Movie found!");
 
       fs.writeFile(
         moviesInfoFilePath,
@@ -321,9 +297,7 @@ const getMovieInfo = async () => {
         },
         (err) => {
           if (err) console.log(err);
-          else {
-            console.log("File written successfully\n");
-          }
+          console.log("File written successfully\n");
         }
       );
 
