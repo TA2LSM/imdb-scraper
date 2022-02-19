@@ -1,5 +1,5 @@
 -----------------------------
-** MOVIE INFO **
+(1) ** MOVIE INFO **
 -----------------------------
 Name: Geleceğe Dönüş (1985)
 IMDB ID: tt0088763
@@ -16,7 +16,7 @@ Poster: https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1Mjgt
 
 
 -----------------------------
-** MOVIE INFO **
+(2) ** MOVIE INFO **
 -----------------------------
 Name: Bıçağın iki yüzü (1998)
 IMDB ID: tt0120611
@@ -33,7 +33,7 @@ Poster: https://m.media-amazon.com/images/M/MV5BOTk2NDNjZWQtMGY0Mi00YTY2LWE5Mzct
 
 
 -----------------------------
-** MOVIE INFO **
+(3) ** MOVIE INFO **
 -----------------------------
 Name: Grinin Elli Tonu (2015)
 IMDB ID: tt2322441
@@ -50,7 +50,7 @@ Poster: https://m.media-amazon.com/images/M/MV5BMjE1MTM4NDAzOF5BMl5BanBnXkFtZTgw
 
 
 -----------------------------
-** MOVIE INFO **
+(4) ** MOVIE INFO **
 -----------------------------
 Name: Demir Adam (2008)
 IMDB ID: tt0371746
@@ -67,7 +67,7 @@ Poster: https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcw
 
 
 -----------------------------
-** MOVIE INFO **
+(5) ** MOVIE INFO **
 -----------------------------
 Name: Görevimiz tehlike II (2000)
 IMDB ID: tt0120755
@@ -84,7 +84,7 @@ Poster: https://m.media-amazon.com/images/M/MV5BN2RkYWVkZDQtNTMxMi00NWQ4LWE2ODct
 
 
 -----------------------------
-** MOVIE INFO **
+(6) ** MOVIE INFO **
 -----------------------------
 Name: Mission: Impossible 7 (2023)
 IMDB ID: tt9603212
@@ -101,7 +101,7 @@ Poster: https://m.media-amazon.com/images/M/MV5BODJhOTIxZTItNmM1OS00MGQ5LWExY2Yt
 
 
 -----------------------------
-** MOVIE INFO **
+(7) ** MOVIE INFO **
 -----------------------------
 Name: Örümcek-Adam (2002)
 IMDB ID: tt0145487

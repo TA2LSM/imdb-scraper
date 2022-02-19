@@ -6,8 +6,11 @@ const fs = require("fs").promises;
 const moviesIndexFilePath = "./moviesList.txt";
 const moviesInfoFilePath = "./moviesInfo.txt";
 
-let moviesToSearch = [];
-let movieIDs = [];
+var notFoundText = "Not Found";
+var moviesTotal, moviesFound, moviesNotFound;
+
+var movies = [];
+var movieIDs = [];
 
 const genres = [
   "Action",
@@ -55,10 +58,18 @@ const startProcess = async () => {
   try {
     await readMoviesList();
 
+    console.log(">> Searching for IMDB Movie IDs. Please wait... ⏳");
     const result = await searchMovieID();
     //console.log(movieIDs);
+    console.log(
+      `Movie(s) ✅: ${moviesFound}, ❌: ${moviesNotFound} (Total: ${moviesTotal})`
+    ); // emojiler WIN + . ile çıkıyor
 
     await getMovieInfo();
+    var percent = ((moviesFound / moviesTotal) * 100).toFixed(2);
+    console.log(
+      `Movie(s) info stored: ${moviesFound} (Total: ${moviesTotal} / %${percent})`
+    );
   } catch (err) {
     console.log("Error: ", err);
   }
@@ -69,7 +80,11 @@ async function readMoviesList() {
 
   data = data.trim();
   data = data.replace(/[\r]/g, "");
-  moviesToSearch = data.split("\n");
+  movies = data.split("\n");
+
+  moviesTotal = movies.length;
+  moviesFound = 0;
+  moviesNotFound = 0;
 }
 
 /*
@@ -82,53 +97,57 @@ const readMoviesList = async () => {
 
     data = data.trim();
     data = data.replace(/[\r]/g, "");
-    moviesToSearch = data.split("\n");
+    movies = data.split("\n");
   });
 };
 */
 
-const searchMovieID = async () => {
+async function searchMovieID() {
   try {
     let i;
 
-    for (i = 0; i < moviesToSearch.length; ++i) {
+    for (i = 0; i < movies.length; ++i) {
       //var requestUrl = "https://www.imdb.com/find?q=" + el + "&ref_=nv_sr_sm";
       var requestUrl =
-        "http://www.imdb.com/find?q=" + moviesToSearch[i].replace(/[ ]/g, "+");
+        "http://www.imdb.com/find?q=" + movies[i].replace(/[ ]/g, "+");
       +"&s=tt&ttype=ft&ref_=fn_ft";
 
       const res = await axios({ method: "GET", url: requestUrl });
       const $ = cheerio.load(res.data);
       let info, link;
-      //let moviesHitNames = [];
-      //let moviesHitLinks = [];
 
       info = $(
         `div[class="findSection"] > table[class="findList"] > tbody > tr > td[class="result_text"]`
       )
         .text()
+        .replace(/[\t\r\n]/g, "")
         .trim();
 
-      if (info.search(moviesToSearch[i])) {
-        //moviesHitNames.push(keyword);
+      if (info.length === 0) {
+        ++moviesNotFound;
+        //console.log(`❌ Movie(s) Not Found: ${moviesNotFound}`); // emojiler WIN + . ile çıkıyor
+        continue;
+      }
 
+      //ERR: BURADAKİ SEARCH KISMI ÇALIŞMIYOR GİBİ...
+      if (info.search(movies[i])) {
         link = $(
           `div[class="findSection"] > table[class="findList"] > tbody > tr > td[class="result_text"] > a`
         ).attr("href");
 
         //moviesHitLinks.push(link);
-      }
+        movieIDs.push(
+          link.substring(link.indexOf("/title/") + 7, link.indexOf("/?ref"))
+        );
 
-      movieIDs.push(
-        link.substring(link.indexOf("/title/") + 7, link.indexOf("/?ref"))
-      );
-      //console.log(moviesHitNames);
-      //console.log(moviesHitLinks);
+        ++moviesFound;
+        //console.log(`✅ Movie(s) Found: ${moviesFound}`);
+      } else movieIDs.push(notFoundText);
     }
   } catch (err) {
     console.log("ERROR!", err);
   }
-};
+}
 
 const getMovieInfo = async () => {
   try {
@@ -138,6 +157,8 @@ const getMovieInfo = async () => {
     let importingString;
 
     for (i = 0; i < movieIDs.length; ++i) {
+      if (movieIDs[i].search(notFoundText) !== -1) continue;
+
       var requestUrl =
         "https://www.imdb.com/title/" + movieIDs[i] + "/reference";
       const res = await axios({ method: "GET", url: requestUrl });
@@ -269,8 +290,9 @@ const getMovieInfo = async () => {
 
       //---------------------------
       importingString = "";
-      importingString =
-        "-----------------------------\r\n** MOVIE INFO **\r\n-----------------------------\r\n";
+      importingString = `-----------------------------\r\n(${
+        i + 1
+      }) ** MOVIE INFO **\r\n-----------------------------\r\n`;
       movieInfoToWrite += importingString;
       importingString = `Name: ${movieTitle} (${movieYear})\r\nIMDB ID: ${movieIDs[i]}\r\n`;
       movieInfoToWrite += importingString;
@@ -284,10 +306,13 @@ const getMovieInfo = async () => {
       movieInfoToWrite += importingString;
       importingString = "-----------------------------\r\n\r\n\r\n";
       movieInfoToWrite += importingString;
-      //console.log(movieInfoToWrite);
-      //console.log("Movie found!");
+      /*
+      var percent = (((i + 1) / moviesFound) * 100).toFixed(2);
+      console.log(
+        `Movie info stored: ${i + 1}/${moviesFound} (%${percent})`
+      );*/
 
-      fs.writeFile(
+      await fs.writeFile(
         moviesInfoFilePath,
         movieInfoToWrite,
         {
@@ -295,29 +320,16 @@ const getMovieInfo = async () => {
           flag: "w",
           mode: 0o666,
         },
+        //(err, data) => {
         (err) => {
-          if (err) console.log(err);
-          console.log("File written successfully\n");
+          if (err) {
+            console.log("💥ERROR: ", err);
+          } //else {
+          //console.log(data);
+          //console.log("File written successfully...");
+          //}
         }
       );
-
-      /*
-      console.log(
-        "-----------------------------\n** MOVIE INFO **\n-----------------------------"
-      );
-      console.log("Name: %s (%s)", movieTitle, movieYear);
-      //console.log("Year:", movieYear);
-      console.log("Age Rating:", movieAgeRating);
-      console.log("Duration:", movieDuration);
-      console.log("Genre:", movieGenre);
-      console.log("Rating:", movieRating);
-      console.log("Rank:", movieRank);
-      console.log("Summary:", movieSummary);
-      console.log("Director:", movieDirector);
-      console.log("Writer:", movieWriter);
-      console.log("Poster:", moviePoster);
-      console.log("-----------------------------");
-      */
     }
   } catch (err) {
     console.log("ERROR!", err);
