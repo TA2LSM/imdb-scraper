@@ -14,9 +14,10 @@
   "dependencies": {
     "axios": "^0.25.0",
     "cheerio": "^1.0.0-rc.10",
-    "imdb-node-api": "^0.1.0"
+    "mongoose": "^6.2.3"
   },
   "devDependencies": {
+    "jshint": "^2.13.4",
     "nodemon": "^2.0.15"
   }
 }
